@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"  
+             x:Class="Vertikal.Views.AscentRegisterPage"  
+             Title="Nueva Ascensión"  
+             BackgroundColor="{StaticResource Background}">  
+
+    <VerticalStackLayout Padding="24" Spacing="24">  
+
+        <Label Text="Registrar nueva ascensión"  
+               FontSize="28"  
+               FontAttributes="Bold"  
+               HorizontalOptions="Center"  
+               TextColor="{StaticResource TextPrimary}" />  
+
+        <Button Text="Registrar ascensión automática"  
+                Style="{StaticResource PrimaryButton}"  
+                Clicked="OnRegistrarAutomaticoClicked" />  
+
+        <Button Text="Registrar por QR/NFC"  
+                Style="{StaticResource PrimaryButton}"  
+                Clicked="OnRegistrarQrNfcClicked" />  
+
+        <Button Text="⬅ Volver"  
+                Style="{StaticResource SecondaryButton}"  
+                Clicked="OnVolverClicked" />  
+
+    </VerticalStackLayout>  
+</ContentPage>
+<!--<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+             x:Class="Vertikal.Views.AscentRegisterPage"
+             Title="Nueva Ascensión">
+    <VerticalStackLayout Padding="20" Spacing="20">
+        <Label Text="Registrar nueva ascensión"
+               FontSize="24"
+               HorizontalOptions="Center" />
+
+        --><!--<maps:Map x:Name="MyMap" HeightRequest="300" IsShowingUser="True"/>--><!--
+        <Button Text="Registrar ascensión automática" Clicked="OnRegistrarAutomaticoClicked" />
+        <Button Text="Registrar por QR/NFC" Clicked="OnRegistrarQrNfcClicked" />
+        
+        <Button Text="⬅️ Volver"
+                Clicked="OnVolverClicked"
+                BackgroundColor="#757575"
+                TextColor="White"/>
+    </VerticalStackLayout>
+</ContentPage>-->
+

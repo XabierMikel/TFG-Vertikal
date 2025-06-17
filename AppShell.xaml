@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Vertikal.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Vertikal.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Vertikal">
+
+    <ShellContent Title="Registro de Usuario" ContentTemplate="{DataTemplate local:RegisterPage}" Route="RegisterPage" />
+    <ShellContent Title="Principal" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage"/>
+    <ShellContent Title="Restablecer Contraseña" ContentTemplate="{DataTemplate local:ForgotPasswordPage}" Route="ForgotPasswordPage" />
+    <ShellContent Title="Principal" ContentTemplate="{DataTemplate local:HistorialPage}" Route="HistorialPage"/>
+    <ShellContent Title="Registrar Ascension" ContentTemplate="{DataTemplate local:AscentRegisterPage}" Route="AscentRegisterPage" />
+    <ShellContent Title="Montes" ContentTemplate="{DataTemplate local:SummitsPage}" Route="SummitsPage" />
+    <ShellContent Title="Perfil" ContentTemplate="{DataTemplate local:UserProfilePage}" Route="UserProfilePage" />
+
+
+
+
+</Shell>

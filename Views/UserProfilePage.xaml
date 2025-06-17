@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Vertikal.Views.UserProfilePage"
+             Title="Perfil de Usuario"
+             BackgroundColor="{StaticResource Background}">
+	<VerticalStackLayout Padding="24" Spacing="18">
+		<Label Text="Perfil de Usuario"
+               FontSize="22"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+		<Label Text="Correo electrónico:" FontAttributes="Bold"/>
+		<Label x:Name="EmailLabel" />
+		<Label Text="Fecha de registro:" FontAttributes="Bold"/>
+		<Label x:Name="RegisterDateLabel" />
+		<Label Text="Nombre:" FontAttributes="Bold"/>
+		<Entry x:Name="NameEntry" Placeholder="Introduce tu nombre" TextChanged="OnNameChanged"/>
+		<Button x:Name="SaveButton"
+                Text="Guardar cambios"
+                Style="{StaticResource PrimaryButton}"	
+                Clicked="OnSaveClicked"
+                IsVisible="False"/>
+		<Button x:Name="BackButton"
+                Text="Volver"
+                Style="{StaticResource SecondaryButton}"
+                Clicked="OnBackClicked"				
+                IsVisible="True"/>
+	</VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Vertikal.Views.HistorialPage"
+             Title="Historial"
+             BackgroundColor="{StaticResource Background}">
+
+    <VerticalStackLayout Padding="20" Spacing="24">
+
+        <Label Text="Historial de Ascensiones"
+               FontSize="28"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="{StaticResource TextPrimary}" />
+
+        <HorizontalStackLayout Spacing="12">
+            <DatePicker x:Name="FechaInicioPicker"
+                        Format="dd/MM/yyyy"
+                        TextColor="{StaticResource TextPrimary}" />
+            <DatePicker x:Name="FechaFinPicker"
+                        Format="dd/MM/yyyy"
+                        TextColor="{StaticResource TextPrimary}" />
+            <Button Text="Filtrar"
+                    Style="{StaticResource PrimaryButton}"
+                    Clicked="OnFiltrarPorFechasClicked" />
+        </HorizontalStackLayout>
+
+        <CollectionView x:Name="AscentsListView"
+                        VerticalOptions="FillAndExpand"
+                        MaximumHeightRequest="550"
+                        Margin="0,10,0,0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Style="{StaticResource CardStyle}" Margin="0,6">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{Binding SummitName}"
+                                   FontAttributes="Bold"
+                                   FontSize="18"
+                                   TextColor="{StaticResource TextPrimary}" />
+
+                            <Label Text="{Binding SummitAltitude, StringFormat='Altitud: {0} m'}"
+                                   FontSize="14"
+                                   TextColor="{StaticResource TextSecondary}" />
+
+                            <Label Text="{Binding SummitDescription}"
+                                   FontSize="13"
+                                   TextColor="{StaticResource TextSecondary}" />
+
+                            <Label Text="{Binding Date, StringFormat='Fecha: {0:dd/MM/yyyy}'}"
+                                   FontSize="14"
+                                   TextColor="{StaticResource TextSecondary}" />
+
+                            <Label Text="{Binding ValidationMethod, StringFormat='Validación: {0}'}"
+                                   FontSize="13"
+                                   TextColor="{StaticResource TextSecondary}" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="⬅ Volver"
+                Style="{StaticResource SecondaryButton}"
+                Margin="0,10,0,0"
+                Clicked="OnVolverClicked" />
+
+    </VerticalStackLayout>
+</ContentPage>
