@@ -35,8 +35,7 @@ public partial class AscentRegisterPage : ContentPage
         double userLon = location.Longitude;
 
         // 1. Obtiene las cumbres cercanas al usuario
-        double delta = 0.009; // ~1km
-        //var nearbySummits = await _summitService.Ge(userLat, userLon, delta);
+        //var nearbySummits = await _summitService.GetNearbySummitsAsync(userLat, userLon, 0.009);~1km
         var nearbySummits = await _summitService.GetSummitListAsync();
 
         // 2. Filtra las cumbres que están dentro de un radio de 50 metros

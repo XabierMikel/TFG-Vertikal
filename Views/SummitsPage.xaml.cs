@@ -26,7 +26,7 @@ public partial class SummitsPage : ContentPage
             .Distinct()
             .OrderBy(p => p)
             .ToList();
-        _provincias.Insert(0, "Todas"); // Añade la opción "Todas"
+        _provincias.Insert(0, "Todas"); 
         ProvinciaPicker.ItemsSource = _provincias;
         ProvinciaPicker.SelectedIndex = 0; // Selecciona "Todas" por defecto
         SummitsCollectionView.ItemsSource = _allSummits;
