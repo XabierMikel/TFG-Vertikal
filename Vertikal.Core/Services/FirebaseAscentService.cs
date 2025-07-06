@@ -64,61 +64,6 @@ namespace Vertikal.Core.Services
             );
         }
 
-        public async Task<List<Ascent>> GetAscentsByUserIdAsync_Prueba(string userId)
-        {
-            var idToken = await _authService.GetValidIdTokenAsync();
-
-            _apiClient.SetBearerToken(idToken);
-
-            var query = new
-            {
-                structuredQuery = new
-                {
-                    from = new[] { new { collectionId = "Ascents" } }
-                }
-            };
-
-            var json = JsonSerializer.Serialize(query);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            // OJO: esta es la URL modificada para acceder a subcolección
-            var response = await _apiClient.PostAsync(
-                $"{FirebaseUrls.FirestoreBase}/Users/{userId}/Ascents:runQuery",
-                content);
-
-            response.EnsureSuccessStatusCode();
-
-            var responseJson = await response.Content.ReadAsStringAsync();
-            var result = JsonDocument.Parse(responseJson);
-
-            var ascents = new List<Ascent>();
-            foreach (var doc in result.RootElement.EnumerateArray())
-            {
-                if (!doc.TryGetProperty("document", out var document)) continue;
-                if (!document.TryGetProperty("fields", out var fields)) continue;
-
-                string summitId = fields.TryGetProperty("SummitId", out var summitProp) && summitProp.TryGetProperty("stringValue", out var summitVal)
-                    ? summitVal.GetString() : null;
-                string userIdField = fields.TryGetProperty("UserId", out var userProp) && userProp.TryGetProperty("stringValue", out var userVal)
-                    ? userVal.GetString() : null;
-                string date = fields.TryGetProperty("Date", out var dateProp) && dateProp.TryGetProperty("stringValue", out var dateVal)
-                    ? dateVal.GetString() : null;
-                string validationMethod = fields.TryGetProperty("ValidationMethod", out var validationProp) && validationProp.TryGetProperty("stringValue", out var validationVal)
-                    ? validationVal.GetString() : null;
-
-                ascents.Add(new Ascent
-                {
-                    SummitId = summitId,
-                    UserId = userIdField,
-                    Date = Convert.ToDateTime(date),
-                    ValidationMethod = validationMethod
-                });
-            }
-
-            return ascents;
-        }
-
-
 
         public virtual async Task<List<Ascent>> GetAscentsByUserIdAsync(string userId)
         {
@@ -189,39 +134,7 @@ namespace Vertikal.Core.Services
            
         }
 
-        public async Task<List<Ascent>> GetAllAscentsAndFilterByUserAsync(string userId)
-        {
-            var idToken = await _authService.GetValidIdTokenAsync();
-            _apiClient.SetBearerToken(idToken);
-
-            var response = await _apiClient.GetAsync($"{FirebaseUrls.AscentsCollection}/Ascents");
-            response.EnsureSuccessStatusCode();
-            var responseJson = await response.Content.ReadAsStringAsync();
-            var result = JsonDocument.Parse(responseJson);
-
-            var ascents = new List<Ascent>();
-            foreach (var doc in result.RootElement.GetProperty("documents").EnumerateArray())
-            {
-                var fields = doc.GetProperty("fields");
-
-                string userIdField = fields.GetProperty("UserId").GetProperty("stringValue").GetString();
-
-                if (userIdField != userId) continue;
-
-                string summitId = fields.GetProperty("SummitId").GetProperty("stringValue").GetString();
-                string date = fields.GetProperty("Date").GetProperty("stringValue").GetString();
-                string validationMethod = fields.GetProperty("ValidationMethod").GetProperty("stringValue").GetString();
-
-                ascents.Add(new Ascent
-                {
-                    SummitId = summitId,
-                    UserId = userIdField,
-                    Date = Convert.ToDateTime(date),
-                    ValidationMethod = validationMethod
-                });
-            }
-            return ascents;
-        }
+    
 
         public async Task<List<Ascent>> GetAscentsByUserAndDateRangeAsync(string userId, DateTime startDate, DateTime endDate)
         {

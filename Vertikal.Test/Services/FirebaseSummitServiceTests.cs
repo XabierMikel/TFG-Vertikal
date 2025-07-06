@@ -36,8 +36,8 @@ namespace Vertikal.Test.Services
                     "Name": { "stringValue": "Gorbea" },
                     "Description": { "stringValue": "Monte más alto de Bizkaia y Álava" },
                     "Altitud": { "stringValue": "1482" },
-                    "Latitude": { "stringValue": "43,066" },
-                    "Longitude": { "stringValue": "-2,75" },
+                    "Latitude": { "stringValue": "43.066" },
+                    "Longitude": { "stringValue": "-2.75" },
                     "Provincia": { "stringValue": "Bizkaia" }
                   }
                 }
@@ -76,8 +76,8 @@ namespace Vertikal.Test.Services
                     "Name": { "stringValue": "Pagasarri" },
                     "Description": { "stringValue": "Monte cercano a Bilbao" },
                     "Altitud": { "stringValue": "673" },
-                    "Latitude": { "stringValue": "43,23" },
-                    "Longitude": { "stringValue": "-2,94" }
+                    "Latitude": { "stringValue": "43.23" },
+                    "Longitude": { "stringValue": "-2.94" }
                   }
                 }
               }

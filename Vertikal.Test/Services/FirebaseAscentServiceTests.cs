@@ -1,14 +1,15 @@
 using Moq;
+using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vertikal.Core.Interfaces;
 using Vertikal.Core.Models;
 using Vertikal.Core.Services;
 using Xunit;
-using System.Collections.Generic;
-using System;
-using System.Net.Http;
-using System.Text.Json;
 
 namespace Vertikal.Test.Services
 {
@@ -136,6 +137,52 @@ namespace Vertikal.Test.Services
                     It.Is<HttpContent>(content => ContentContains(content, ascent.UserId, ascent.SummitId))),
                 Times.Once);
         }
+
+        [Fact]
+        public async Task GetAscentsByUserIdAsync_ReturnsAscentsList()
+        {
+            // Arrange
+            var userId = "user123";
+            var fakeToken = "fake-token";
+            var fakeJson = @"[
+            {
+            ""document"": {
+                ""fields"": {
+                    ""SummitId"": { ""stringValue"": ""summit1"" },
+                    ""UserId"": { ""stringValue"": ""user123"" },
+                    ""Date"": { ""stringValue"": ""2024-07-01T00:00:00"" },
+                    ""ValidationMethod"": { ""stringValue"": ""manual"" }
+                   }
+                }
+             }
+             ]";
+
+            var authServiceMock = new Mock<IFirebaseAuthService>();
+            authServiceMock.Setup(a => a.GetValidIdTokenAsync()).ReturnsAsync(fakeToken);
+
+            var httpResponse = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(fakeJson, Encoding.UTF8, "application/json")
+            };
+
+            var apiClientMock = new Mock<IApiClient>();
+            apiClientMock.Setup(a => a.SetBearerToken(fakeToken));
+            apiClientMock.Setup(a => a.PostAsync(It.IsAny<string>(), It.IsAny<HttpContent>()))
+                         .ReturnsAsync(httpResponse);
+
+            var service = new FirebaseAscentService(authServiceMock.Object, apiClientMock.Object);
+
+            // Act
+            var result = await service.GetAscentsByUserIdAsync(userId);
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal("summit1", result[0].SummitId);
+            Assert.Equal("user123", result[0].UserId);
+            Assert.Equal("manual", result[0].ValidationMethod);
+            Assert.Equal(new DateTime(2024, 7, 1, 0, 0, 0), result[0].Date);
+        }
+
 
         [Fact]
         public async Task RegisterAscentAsync_ThrowsException_OnApiError()

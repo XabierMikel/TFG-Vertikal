@@ -11,7 +11,7 @@ namespace Vertikal.Test.Helpers
         {
             var json = """
             {
-                "Altitud": { "doubleValue": "123,45" }
+                "Altitud": { "doubleValue": "123.45" }
             }
             """;
             var doc = JsonDocument.Parse(json);
@@ -27,7 +27,7 @@ namespace Vertikal.Test.Helpers
         {
             var json = """
             {
-                "Altitud": { "stringValue": "99,9" }
+                "Altitud": { "stringValue": "99.9" }
             }
             """;
             var doc = JsonDocument.Parse(json);

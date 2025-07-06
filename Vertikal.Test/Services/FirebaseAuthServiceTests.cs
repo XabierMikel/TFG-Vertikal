@@ -1,5 +1,6 @@
 using Firebase.Auth;
 using Moq;
+using Moq.Protected;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -91,6 +92,7 @@ namespace Vertikal.Test.Services
             var ex = await Assert.ThrowsAsync<InvalidOperationException>(() => _service.GetValidIdTokenAsync());
             Assert.Contains("Usuario no autenticado", ex.Message);
         }
+
 
     }
 }

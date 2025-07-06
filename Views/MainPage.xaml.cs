@@ -51,10 +51,7 @@ public partial class MainPage : ContentPage
 
     private async void OnRegistrarAscensionClicked(object sender, EventArgs e)
     {
-        // Navegar a la pantalla de registro de ascensión
-        //await Shell.Current.GoToAsync("//AscentRegisterPage");
-
-
+      
         var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(1)));
 
         if (location == null)
@@ -66,10 +63,6 @@ public partial class MainPage : ContentPage
         double userLat = location.Latitude;
         double userLon = location.Longitude;
 
-        userLat = 43.03090;
-        userLon = -3.10757;
-
-        //var nearbySummits = await _summitService.GetNearbySummitsAsync(userLat, userLon, 0.009);
         var nearbySummits = await _summitService.GetSummitListAsync();
 
         // 2. Filtra las cumbres que están dentro de un radio de 50 metros

@@ -12,15 +12,35 @@ namespace Vertikal.Core.Helpers
         public static double GetDoubleFromField(JsonElement fields, string propertyName)
         {
             if (fields.TryGetProperty(propertyName, out var prop))
-            {          
-                if (prop.TryGetProperty("stringValue", out var strVal) && double.TryParse(strVal.GetString(), out var result))
+            {
+                if (prop.TryGetProperty("stringValue", out var strVal) &&
+                    double.TryParse(strVal.GetString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var result))
                     return result;
-                if (prop.TryGetProperty("doubleValue", out var doubleVal) && double.TryParse(doubleVal.GetString(), out result))
-                    return result;
-                if (prop.TryGetProperty("integerValue", out var intVal) && double.TryParse(intVal.GetString(), out result))
-                    return result;
+
+                if (prop.TryGetProperty("doubleValue", out var doubleVal))
+                {
+                    // ✅ Si es número, úsalo directamente
+                    if (doubleVal.ValueKind == JsonValueKind.Number)
+                        return doubleVal.GetDouble();
+
+                    // En otros casos raros (número como string), parseamos
+                    if (doubleVal.ValueKind == JsonValueKind.String &&
+                        double.TryParse(doubleVal.GetString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out result))
+                        return result;
+                }
+
+                if (prop.TryGetProperty("integerValue", out var intVal))
+                {
+                    if (intVal.ValueKind == JsonValueKind.Number)
+                        return intVal.GetDouble();
+
+                    if (intVal.ValueKind == JsonValueKind.String &&
+                        double.TryParse(intVal.GetString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out result))
+                        return result;
+                }
             }
-            throw new Exception($"No se pudo obtener el valor double para {propertyName}");
+
+            throw new Exception($"No se pudo obtener el valor double para '{propertyName}'.");
         }
 
 

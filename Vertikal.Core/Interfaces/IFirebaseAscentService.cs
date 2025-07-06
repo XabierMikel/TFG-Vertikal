@@ -10,7 +10,7 @@ namespace Vertikal.Core.Interfaces
         Task RegisterAscentAsync(Ascent ascent);
         Task<bool> AscentExistsTodayAsync(string userId, string summitId, DateTime date);
         Task<List<Ascent>> GetAscentsByUserIdAsync(string userId);
-        Task<List<Ascent>> GetAllAscentsAndFilterByUserAsync(string userId);
+       
         Task<List<Ascent>> GetAscentsByUserAndDateRangeAsync(string userId, DateTime startDate, DateTime endDate);
     }
 }
