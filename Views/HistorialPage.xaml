@@ -5,29 +5,32 @@
              Title="Historial"
              BackgroundColor="{StaticResource Background}">
 
-    <VerticalStackLayout Padding="20" Spacing="24">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20" RowSpacing="16">
+        <!-- Cabecera y filtros -->
+        <VerticalStackLayout Grid.Row="0" Spacing="12">
+            <Label Text="Historial de Ascensiones"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource TextPrimary}" />
 
-        <Label Text="Historial de Ascensiones"
-               FontSize="28"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               TextColor="{StaticResource TextPrimary}" />
+            <HorizontalStackLayout Spacing="12">
+                <DatePicker x:Name="FechaInicioPicker"
+                            Format="dd/MM/yyyy"
+                            TextColor="{StaticResource TextPrimary}" />
+                <DatePicker x:Name="FechaFinPicker"
+                            Format="dd/MM/yyyy"
+                            TextColor="{StaticResource TextPrimary}" />
+                <Button Text="Filtrar"
+                        Style="{StaticResource PrimaryButton}"
+                        Clicked="OnFiltrarPorFechasClicked" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
 
-        <HorizontalStackLayout Spacing="12">
-            <DatePicker x:Name="FechaInicioPicker"
-                        Format="dd/MM/yyyy"
-                        TextColor="{StaticResource TextPrimary}" />
-            <DatePicker x:Name="FechaFinPicker"
-                        Format="dd/MM/yyyy"
-                        TextColor="{StaticResource TextPrimary}" />
-            <Button Text="Filtrar"
-                    Style="{StaticResource PrimaryButton}"
-                    Clicked="OnFiltrarPorFechasClicked" />
-        </HorizontalStackLayout>
-
+        <!-- Lista scrollable -->
         <CollectionView x:Name="AscentsListView"
+                        Grid.Row="1"
                         VerticalOptions="FillAndExpand"
-                        MaximumHeightRequest="550"
                         Margin="0,10,0,0">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -37,19 +40,15 @@
                                    FontAttributes="Bold"
                                    FontSize="18"
                                    TextColor="{StaticResource TextPrimary}" />
-
                             <Label Text="{Binding SummitAltitude, StringFormat='Altitud: {0} m'}"
                                    FontSize="14"
                                    TextColor="{StaticResource TextSecondary}" />
-
                             <Label Text="{Binding SummitDescription}"
                                    FontSize="13"
                                    TextColor="{StaticResource TextSecondary}" />
-
                             <Label Text="{Binding Date, StringFormat='Fecha: {0:dd/MM/yyyy}'}"
                                    FontSize="14"
                                    TextColor="{StaticResource TextSecondary}" />
-
                             <Label Text="{Binding ValidationMethod, StringFormat='Validación: {0}'}"
                                    FontSize="13"
                                    TextColor="{StaticResource TextSecondary}" />
@@ -59,10 +58,11 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
+        <!-- Botón volver siempre visible abajo -->
         <Button Text="⬅ Volver"
+                Grid.Row="2"
                 Style="{StaticResource SecondaryButton}"
                 Margin="0,10,0,0"
                 Clicked="OnVolverClicked" />
-
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

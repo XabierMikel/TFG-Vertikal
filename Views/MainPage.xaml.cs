@@ -52,7 +52,7 @@ public partial class MainPage : ContentPage
     private async void OnRegistrarAscensionClicked(object sender, EventArgs e)
     {
       
-        var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(1)));
+        var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10)));
 
         if (location == null)
         {

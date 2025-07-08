@@ -16,7 +16,6 @@ namespace Vertikal
             Routing.RegisterRoute("ForgotPasswordPage", typeof(ForgotPasswordPage));
             Routing.RegisterRoute("RegisterPage", typeof(RegisterPage));
             Routing.RegisterRoute("HistorialPage", typeof(HistorialPage));
-            Routing.RegisterRoute("AscentRegisterPage", typeof(AscentRegisterPage));
             Routing.RegisterRoute("SummitsPage", typeof(SummitsPage));
             Routing.RegisterRoute("UserProfilePage", typeof(UserProfilePage));
           

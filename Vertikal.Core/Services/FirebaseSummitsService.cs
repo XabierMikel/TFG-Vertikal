@@ -25,59 +25,74 @@ namespace Vertikal.Core.Services
                 var idToken = await _authService.GetValidIdTokenAsync();
                 _apiClient.SetBearerToken(idToken);
 
-                var response = await _apiClient.GetAsync(FirebaseUrls.SummitsCollection);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    // Lanzar excepción con el mensaje del servidor
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Error al obtener summits: {response.StatusCode} - {errorContent}");
-                }
-
-                var json = await response.Content.ReadAsStringAsync();
-
-                var result = JsonDocument.Parse(json);
                 var summits = new List<Summits>();
-                foreach (var doc in result.RootElement.GetProperty("documents").EnumerateArray())
+                string nextPageToken = null;
+                string baseUrl = FirebaseUrls.SummitsCollection;
+
+                do
                 {
-                    if (!doc.TryGetProperty("fields", out var fields)) continue;
+                    var url = baseUrl;
+                    if (!string.IsNullOrEmpty(nextPageToken))
+                        url += $"?pageToken={nextPageToken}";
 
-                    string documentId = doc.GetProperty("name").GetString().Split('/').Last();
+                    var response = await _apiClient.GetAsync(url);
 
-                    string name = fields.TryGetProperty("Name", out var nameProp) && nameProp.TryGetProperty("stringValue", out var nameVal)
-                        ? nameVal.GetString() : null;
-
-                    string description = fields.TryGetProperty("Description", out var descProp) && descProp.TryGetProperty("stringValue", out var descVal)
-                        ? descVal.GetString() : null;
-
-                    var altitud = Helpers.Helpers.GetDoubleFromField(fields, "Altitud");
-                    var latitude = Helpers.Helpers.GetDoubleFromField(fields, "Latitude");
-                    var longitude = Helpers.Helpers.GetDoubleFromField(fields, "Longitude");
-
-                    string provincia = fields.TryGetProperty("Provincia", out var provProp) && provProp.TryGetProperty("stringValue", out var provVal) ? provVal.GetString() : null;
-
-                    summits.Add(new Summits
+                    if (!response.IsSuccessStatusCode)
                     {
-                        Id = documentId,
-                        Name = name,
-                        Description = description,
-                        Altitud = altitud,
-                        Latitude = latitude,
-                        Longitude = longitude,
-                        Provincia = provincia
-                    });
-                }
-                return summits;
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        throw new Exception($"Error al obtener summits: {response.StatusCode} - {errorContent}");
+                    }
 
+                    var json = await response.Content.ReadAsStringAsync();
+                    var result = JsonDocument.Parse(json);
+
+                    if (result.RootElement.TryGetProperty("documents", out var documents))
+                    {
+                        foreach (var doc in documents.EnumerateArray())
+                        {
+                            if (!doc.TryGetProperty("fields", out var fields)) continue;
+
+                            string documentId = doc.GetProperty("name").GetString().Split('/').Last();
+
+                            string name = fields.TryGetProperty("Name", out var nameProp) && nameProp.TryGetProperty("stringValue", out var nameVal)
+                                ? nameVal.GetString() : null;
+
+                            string description = fields.TryGetProperty("Description", out var descProp) && descProp.TryGetProperty("stringValue", out var descVal)
+                                ? descVal.GetString() : null;
+
+                            var altitud = Helpers.Helpers.GetDoubleFromField(fields, "Altitud");
+                            var latitude = Helpers.Helpers.GetDoubleFromField(fields, "Latitude");
+                            var longitude = Helpers.Helpers.GetDoubleFromField(fields, "Longitude");
+
+                            string provincia = fields.TryGetProperty("Provincia", out var provProp) && provProp.TryGetProperty("stringValue", out var provVal)
+                                ? provVal.GetString() : null;
+
+                            summits.Add(new Summits
+                            {
+                                Id = documentId,
+                                Name = name,
+                                Description = description,
+                                Altitud = altitud,
+                                Latitude = latitude,
+                                Longitude = longitude,
+                                Provincia = provincia
+                            });
+                        }
+                    }
+
+                    // Extrae el nextPageToken si existe
+                    nextPageToken = result.RootElement.TryGetProperty("nextPageToken", out var tokenProp) ? tokenProp.GetString() : null;
+
+                } while (!string.IsNullOrEmpty(nextPageToken));
+
+                return summits;
             }
             catch (HttpRequestException ex)
             {
-                // Manejo de errores de red    
                 throw new Exception("Error de red al conectar con el servidor.", ex);
             }
             catch (Exception ex)
             {
-                // Manejo de otros errores
                 throw new Exception("Ocurrió un error inesperado al obtener los summits.", ex);
             }
         }

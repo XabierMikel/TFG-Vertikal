@@ -98,9 +98,6 @@
   </ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\AscentRegisterPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\ForgotPasswordPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

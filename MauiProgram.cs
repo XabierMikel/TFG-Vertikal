@@ -50,7 +50,6 @@ namespace Vertikal
             builder.Services.AddTransient<Views.MainPage>();
             builder.Services.AddTransient<Views.ForgotPasswordPage>();
             builder.Services.AddTransient<Views.HistorialPage>();
-            builder.Services.AddTransient<Views.AscentRegisterPage>();
             builder.Services.AddTransient<Views.SummitsPage>();
             builder.Services.AddTransient<Views.UserProfilePage>();
 

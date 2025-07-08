@@ -11,11 +11,8 @@
     <ShellContent Title="Principal" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage"/>
     <ShellContent Title="Restablecer Contraseña" ContentTemplate="{DataTemplate local:ForgotPasswordPage}" Route="ForgotPasswordPage" />
     <ShellContent Title="Principal" ContentTemplate="{DataTemplate local:HistorialPage}" Route="HistorialPage"/>
-    <ShellContent Title="Registrar Ascension" ContentTemplate="{DataTemplate local:AscentRegisterPage}" Route="AscentRegisterPage" />
     <ShellContent Title="Montes" ContentTemplate="{DataTemplate local:SummitsPage}" Route="SummitsPage" />
     <ShellContent Title="Perfil" ContentTemplate="{DataTemplate local:UserProfilePage}" Route="UserProfilePage" />
-
-
 
 
 </Shell>
